@@ -6,6 +6,7 @@ import 'package:todo_admin/models/primary/reference.dart';
 class GlobalIcons {
   final IconData user = Icons.person_rounded;
   final IconData users = Icons.people;
+  final IconData tasks = Icons.task;
   final IconData settings = Icons.settings;
   final IconData form = Icons.folder_copy_rounded;
   final IconData home = Icons.home;

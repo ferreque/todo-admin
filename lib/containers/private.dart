@@ -7,6 +7,7 @@ import 'package:todo_admin/pages/private/home.dart';
 import 'package:todo_admin/pages/private/options/index.dart';
 import 'package:todo_admin/pages/private/options/profile.dart';
 import 'package:todo_admin/pages/private/users/list.dart';
+import 'package:todo_admin/pages/private/tasks/tasks_page.dart';
 import 'package:todo_admin/widgets/blocks/build.dart';
 import 'package:todo_admin/widgets/components/header.dart';
 import 'package:todo_admin/widgets/components/menu.dart';
@@ -17,6 +18,7 @@ class PrivateContainer extends anxeb.PageContainer<Application, PageMeta> {
     return [
       () => HomePage(),
       () => UsersPage(),
+      () => TasksPage(),
       () => OptionsPage(),
       () => ProfilePage(),
     ];
@@ -61,6 +63,12 @@ class PrivateContainer extends anxeb.PageContainer<Application, PageMeta> {
                             key: 'users',
                             icon: Global.icons.users,
                             onTab: () async => go('/users'),
+                          ),
+                           anxeb.MenuGroup(
+                            caption: () => 'Tareas',
+                            key: 'tasks',
+                            icon: Global.icons.tasks,
+                            onTab: () async => go('/tasks'),
                           ),
                           anxeb.MenuGroup(
                             caption: () => 'Acerca',

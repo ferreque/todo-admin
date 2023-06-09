@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:anxeb_flutter/anxeb.dart' as anxeb;
-import 'package:todo_admin/forms/user.dart';
+import 'package:todo_admin/forms/task.dart';
 import 'package:todo_admin/middleware/global.dart';
 import 'package:todo_admin/middleware/page_meta.dart';
 import 'package:todo_admin/middleware/session.dart';
-import 'package:todo_admin/models/primary/user.dart';
-import 'package:todo_admin/widgets/rows/user.dart';
+import 'package:todo_admin/models/primary/task.dart';
+import 'package:todo_admin/widgets/rows/task.dart';
 import 'package:todo_admin/middleware/application.dart';
 
-class UsersPage extends anxeb.PageWidget<Application, PageMeta> {
-  UsersPage({Key key}) : super('users', key: key, path: 'users');
+class TasksPage extends anxeb.PageWidget<Application, PageMeta> {
+  TasksPage({Key key}) : super('tasks', key: key, path: 'tasks');
 
   @override
-  PageMeta meta() => PageMeta(icon: Global.icons.users);
+  PageMeta meta() => PageMeta(icon: Global.icons.tasks);
 
   @override
-  createState() => _UsersState();
+  createState() => _TasksState();
 
   @override
-  String title({anxeb.GoRouterState state}) => 'Usuarios Existentes';
+  String title({anxeb.GoRouterState state}) => 'Tareas Existentes';
 }
 
-class _UsersState extends anxeb.PageView<UsersPage, Application, PageMeta> {
-  List<UserModel> _users;
+class _TasksState extends anxeb.PageView<TasksPage, Application, PageMeta> {
+  List<TaskModel> _tasks;
   ScrollController _scrollController;
   bool _refreshing;
   String _lookup;
@@ -92,15 +92,15 @@ class _UsersState extends anxeb.PageView<UsersPage, Application, PageMeta> {
         await scope.busy();
       }
       scope.retick();
-      final data = await session.api.get('/users');
-      _users = data.list((data) => UserModel(data));
+      final data = await session.api.get('/tasks');
+      _tasks = data.list((data) => TaskModel(data));
 
-      if (_users.isEmpty) {
-        meta.subtitle = 'Registro de usuarios del sistema';
-      } else if (_users.length == 1) {
-        meta.subtitle = 'Existe un usuario registrado';
+      if (_tasks.isEmpty) {
+        meta.subtitle = 'Registro de tareas del sistema';
+      } else if (_tasks.length == 1) {
+        meta.subtitle = 'Existe una tarea registrada';
       } else {
-        meta.subtitle = 'Existen ${_users.length} usuarios registrados';
+        meta.subtitle = 'Existen ${_tasks.length} tareas registradas';
       }
 
       if (jump == true && _scrollController.hasClients) {
@@ -126,28 +126,28 @@ class _UsersState extends anxeb.PageView<UsersPage, Application, PageMeta> {
   }
 
   Widget _getList() {
-    if (users == null && _refreshing == true) {
+    if (tasks == null && _refreshing == true) {
       return anxeb.EmptyBlock(
         scope: scope,
-        message: 'Cargando usuarios...',
+        message: 'Cargando tareas...',
         icon: Icons.sync,
       );
     }
 
-    if (users == null) {
+    if (tasks == null) {
       return anxeb.EmptyBlock(
         scope: scope,
-        message: 'Error cargando usuarios',
+        message: 'Error cargando tareas',
         icon: Icons.cloud_off,
         actionText: 'Refrescar',
         actionCallback: () async => _refresh(),
       );
     }
 
-    if (users.isEmpty) {
+    if (tasks.isEmpty) {
       return anxeb.EmptyBlock(
         scope: scope,
-        message: 'No existen usuarios',
+        message: 'No existen tareas registradas',
         icon: anxeb.Octicons.info,
         actionText: 'Refrescar',
         actionCallback: () async => _refresh(),
@@ -157,42 +157,42 @@ class _UsersState extends anxeb.PageView<UsersPage, Application, PageMeta> {
     return ListView(
       controller: _scrollController,
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-      children: users
+      children: tasks
           .map((item) =>
-              UserListRow(scope: scope, user: item, onTap: () => _select(item), onDeleteTap: () => _delete(item)))
+              TaskListRow(scope: scope, task: item, onTap: () => _select(item), onDeleteTap: () => _delete(item)))
           .toList(),
     );
   }
 
-  void _select(UserModel user) async {
-    user.using(scope).fetch(success: (helper) async {
-      final form = UserForm(scope: scope, user: user);
+  void _select(TaskModel task) async {
+    task.using(scope).fetch(success: (helper) async {
+      final form = TaskForm(scope: scope, task: task);
       final result = await form.show();
       if (result != null && result.$deleted == true) {
         rasterize(() {
-          _users.remove(user);
+          _tasks.remove(task);
         });
       }
     });
   }
 
-  void _delete(UserModel user) async {
-    final result = await user.using(scope).delete(success: (helper) async {
-      scope.alerts.success('Usuario eliminado exitosamente').show();
+  void _delete(TaskModel task) async {
+    final result = await task.using(scope).delete(success: (helper) async {
+      scope.alerts.success('Tarea eliminada exitosamente').show();
     });
     if (result != null) {
       rasterize(() {
-        _users.remove(user);
+        _tasks.remove(task);
       });
     }
   }
 
   void _add() async {
-    final form = UserForm(scope: scope);
+    final form = TaskForm(scope: scope);
     final result = await form.show();
     if (result != null) {
       rasterize(() {
-        _users.add(result);
+        _tasks.add(result);
       });
       await Future.delayed(const Duration(milliseconds: 10));
       if (_scrollController.hasClients) {
@@ -202,8 +202,8 @@ class _UsersState extends anxeb.PageView<UsersPage, Application, PageMeta> {
     }
   }
 
-  List<UserModel> get users =>
-      _users != null ? _users.where(($item) => $item.filter(lookup: _lookup)).toList() : _users;
+  List<TaskModel> get tasks =>
+      _tasks != null ? _tasks.where(($item) => $item.filter(lookup: _lookup)).toList() : _tasks;
 
   Session get session => application.session;
 }

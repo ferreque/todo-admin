@@ -1,6 +1,7 @@
 import 'package:todo_admin/models/common/identity.dart';
 import 'package:todo_admin/models/common/login.dart';
 import 'package:todo_admin/models/primary/reference.dart';
+import 'package:todo_admin/models/primary/task.dart';
 import 'package:todo_admin/models/primary/user.dart';
 
 class GlobalCaptions {
@@ -21,6 +22,20 @@ class GlobalCaptions {
         return 'Cliente';
       case UserRole.broker:
         return 'Agente';
+    }
+    return null;
+  }
+
+  String taskPriority(TaskPriority priority) {
+    switch (priority) {
+      case TaskPriority.red:
+        return 'RED';
+      case TaskPriority.orange:
+        return 'ORANGE';
+      case TaskPriority.yellow:
+        return 'YELLOW';
+        case TaskPriority.green:
+        return 'GREEN';
     }
     return null;
   }
