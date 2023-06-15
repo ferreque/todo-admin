@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:anxeb_flutter/anxeb.dart' as anxeb;
 import 'package:todo_admin/middleware/application.dart';
 import 'package:todo_admin/middleware/global.dart';
- import 'package:todo_admin/models/common/identity.dart';
-// import 'package:todo_admin/models/common/login.dart';
 import 'package:todo_admin/models/primary/task.dart';
 
 class TaskForm extends anxeb.FormDialog<TaskModel, Application> {
@@ -17,7 +15,7 @@ class TaskForm extends anxeb.FormDialog<TaskModel, Application> {
           dismissable: true,
           title: task == null ? 'Nueva Tarea' : 'Editar Tarea',
           subtitle: task?.title,
-          icon: task == null ? Icons.task : anxeb.CommunityMaterialIcons.account_edit,
+          icon: task == null ? Icons.task : Icons.edit_square,
           width: Global.settings.mediumFormWidth,
         ) {
     _priority = priority;
@@ -41,7 +39,7 @@ class TaskForm extends anxeb.FormDialog<TaskModel, Application> {
                 scope: scope,
                 name: 'title',
                 group: 'task',
-                icon: Icons.text_fields,
+                icon: Icons.title,
                 fetcher: () => _task.title,
                 label: 'Titulo',
                 type: anxeb.TextInputFieldType.text,
@@ -53,9 +51,29 @@ class TaskForm extends anxeb.FormDialog<TaskModel, Application> {
             anxeb.FormSpacer(),
           ],
         ),
+        anxeb.FormRowContainer(
+          scope: scope,
+          fields: [
+            Expanded(
+              child: anxeb.TextInputField(
+                scope: scope,
+                name: 'subtitle',
+                group: 'task',
+                icon: Icons.subtitles,
+                fetcher: () => _task.taskDescription,
+                label: 'Descripción',
+                type: anxeb.TextInputFieldType.text,
+                // validator: anxeb.Utils.validators.firstNames,
+                applier: (value) => _task.taskDescription = value,
+                autofocus: true,
+              ),
+            ),
+            anxeb.FormSpacer(),
+          ],
+        ),
          anxeb.FormRowContainer(
            scope: scope,
-           title: 'Información Administrativa',
+           title: 'Prioridad de la tarea',
            fields: [
              anxeb.FormSpacer(),
              Expanded(
@@ -63,9 +81,10 @@ class TaskForm extends anxeb.FormDialog<TaskModel, Application> {
                  scope: scope,
                  name: 'priority',
                  group: 'task',
-                 icon: Icons.shield_rounded,
+                 icon: Icons.smart_toy_sharp,
+                 
                  fetcher: () => _task.priority,
-                 label: 'Rol',
+                 label: 'Prioridad',
                  options: () async => TaskPriority.values,
                  displayText: (value) => Global.captions.taskPriority(value),
                  onValidSubmit: (value) => scope.rasterize(() => _task.priority = value),

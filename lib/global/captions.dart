@@ -29,13 +29,13 @@ class GlobalCaptions {
   String taskPriority(TaskPriority priority) {
     switch (priority) {
       case TaskPriority.red:
-        return 'RED';
+        return 'URGENT';
       case TaskPriority.orange:
-        return 'ORANGE';
+        return 'PRIORITARY';
       case TaskPriority.yellow:
-        return 'YELLOW';
+        return 'MEDIUM';
         case TaskPriority.green:
-        return 'GREEN';
+        return 'CHILL';
     }
     return null;
   }

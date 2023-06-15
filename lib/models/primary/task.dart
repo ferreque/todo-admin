@@ -10,7 +10,7 @@ class TaskModel extends anxeb.HelpedModel<TaskModel, TaskHelper> {
   void init() {
     field(() => id, (v) => id = v, 'id', primary: true);
     field(() => title, (v) => title = v, 'title');
-    field(() => description, (v) => description = v, 'description');
+    field(() => taskDescription, (v) => taskDescription = v, 'taskDescription');
     field(() => priority, (v) => priority = v, 'priority', enumValues: TaskPriority.values);
     field(() => checks, (v) => checks = v, 'checks');
     // field(() => login, (v) => login = v, 'login', instance: (data) => LoginModel(data), defect: () => LoginModel());
@@ -24,7 +24,7 @@ class TaskModel extends anxeb.HelpedModel<TaskModel, TaskHelper> {
 
   String id;
   String title;
-  String description;
+  String taskDescription;
   DateTime created;
   TaskPriority priority;
   bool checks;

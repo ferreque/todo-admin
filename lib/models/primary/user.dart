@@ -8,6 +8,7 @@ class UserModel extends anxeb.HelpedModel<UserModel, UserHelper> {
 
   @override
   void init() {
+  
     field(() => id, (v) => id = v, 'id', primary: true);
     field(() => firstNames, (v) => firstNames = v, 'first_names');
     field(() => lastNames, (v) => lastNames = v, 'last_names');
@@ -71,5 +72,4 @@ class UserMetaModel extends anxeb.Model<UserMetaModel> {
 
   String contactId;
 }
-
 enum UserRole { admin, client, broker }

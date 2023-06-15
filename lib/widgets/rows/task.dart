@@ -37,11 +37,11 @@ class _TaskListRowState extends State<TaskListRow> {
       ),
       margin: const EdgeInsets.only(top: 1, bottom: 8),
       scope: widget.scope,
-      icon: Icons.task,
+      icon: Icons.task_outlined,
       iconPadding: const EdgeInsets.only(top: 3, right: 2, left: 8),
       iconScale: 1,
-      iconColor: Colors.amber,
-      title: task.toString(),
+      iconColor: Global.colors.taskPriority(task.priority),
+      title: task.title,
       titleStyle: TextStyle(
         fontSize: 16,
         height: 1.30,
@@ -49,7 +49,7 @@ class _TaskListRowState extends State<TaskListRow> {
         letterSpacing: -.3,
         color: settings.colors.primary,
       ),
-      subtitle: 'Subtitulo',
+      subtitle: task.taskDescription,
       titleTrailBody: anxeb.TextButton(
         caption: 'Eliminar',
         size: anxeb.ButtonSize.chip,
@@ -62,6 +62,7 @@ class _TaskListRowState extends State<TaskListRow> {
         onPressed: widget.onDeleteTap,
         padding: const EdgeInsets.only(left: 8, right: 11, bottom: 2),
       ),
+      
       subtitleTrailBody: Container(
         padding: const EdgeInsets.only(top: 3),
         child: Row(
@@ -72,10 +73,10 @@ class _TaskListRowState extends State<TaskListRow> {
               scope: widget.scope,
               text: Global.captions.taskPriority(task.priority).toUpperCase(),
               fontSize: 13,
-              icon: Icons.lock,
+              icon: Icons.priority_high,
               iconPadding: const EdgeInsets.only(right: 2),
               scale: 1.6,
-              color: settings.colors.primary,
+              color: Global.colors.taskPriority(task.priority),
             ),
             anxeb.ListStatsBlock(
               scope: widget.scope,
@@ -89,12 +90,13 @@ class _TaskListRowState extends State<TaskListRow> {
           ],
         ),
       ),
+
       subtitleTrailStyle: const TextStyle(
         fontSize: 14,
         height: 1.5,
         fontWeight: FontWeight.w400,
       ),
-      chipColor: Colors.lightGreenAccent,
+      chipColor: Colors.black,
       subtitleStyle: const TextStyle(
         fontSize: 12,
         height: 1.1,

@@ -81,7 +81,7 @@ class CredentialsForm extends anxeb.FormDialog<UserModel, Application> {
                     return validPass;
                   }
                   if (value != scope.forms['credentials'].fields['password_new'].value) {
-                    return 'Iguale a la contraseña nueva';
+                    return 'Igual a la contraseña nueva';
                   } else {
                     return null;
                   }

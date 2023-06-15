@@ -51,7 +51,7 @@ class Session {
       api.token = application.configuration?.auth?.token;
 
       try {
-        data = await application.api.post('/auth/renew', {});
+        data = await application.api.post('/auth', {});
       } catch (err) {
         if (err.code == 6013 || err.code == 911 && scope != null) {
           scope.alerts.error(err).show();
